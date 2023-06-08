@@ -99,3 +99,10 @@ form button {
 .delete img {
 	height: 27px;
 }
+.task button:hover {
+	transition: 0.3s ease-in-out;
+}
+.task button:hover {
+	transform: scale(1.1);
+	cursor: pointer;
+}

@@ -2,10 +2,8 @@ const button = document.querySelector('button');
 const input = document.querySelector('input');
 const todoPlaceHolder = document.querySelector('.Tasks-holder');
 let tabTasks = [];
-let tabErrors = [];
-button.addEventListener('click', (e) => {
-	e.preventDefault();
 
+const createTask = (param) => {
 	const task = document.createElement('div');
 
 	task.classList.add('task');
@@ -32,7 +30,7 @@ button.addEventListener('click', (e) => {
 
 	const TodoInput = document.createElement('input');
 
-	TodoInput.value = input.value;
+	TodoInput.value = param;
 
 	TodoInput.setAttribute('readonly', 'readonly');
 
@@ -44,39 +42,36 @@ button.addEventListener('click', (e) => {
 
 	task.appendChild(deleteButton);
 
-	const error = document.createElement('div');
+	tabTasks.push(TodoInput.value);
 
-	error.textContent = 'Wprowadź zadanie';
-
-	if (input.value != '') {
+	if (tabTasks.length < 9) {
 		todoPlaceHolder.appendChild(task);
-
-		tabTasks.push(task);
-		todoPlaceHolder.classList.remove('failed');
-
-		if (tabTasks.length > 8) {
-			todoPlaceHolder.removeChild(task);
-			tabTasks.pop();
-		}
-	} else {
-		tabErrors.push(error);
-
-		error.setAttribute('class', 'error');
-		todoPlaceHolder.appendChild(error);
-
-		if (tabErrors.length > 1) {
-			todoPlaceHolder.removeChild(error);
-		}
-		todoPlaceHolder.classList.add('failed');
 	}
+	if (tabTasks.length > 8) {
+		tabTasks.pop();
+	}
+
+	localStorage.setItem('myelement', JSON.stringify(tabTasks));
 
 	deleteButton.addEventListener('click', () => {
 		tabTasks.pop();
-		console.log(tabTasks);
+		localStorage.setItem('myelement', JSON.stringify(tabTasks));
 		task.remove();
 	});
 	confirmButton.addEventListener('click', () => {
 		TodoInput.removeAttribute('readonly', 'readonly');
 		TodoInput.focus();
 	});
+};
+button.addEventListener('click', (e) => {
+	e.preventDefault();
+	let value = input.value;
+	createTask(value);
 });
+function GetFromLocalStorage() {
+	const element = JSON.parse(localStorage.getItem('myelement'));
+	element.forEach((el) => {
+		createTask(el);
+	});
+}
+GetFromLocalStorage();
