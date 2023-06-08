@@ -30,7 +30,11 @@ const createTask = (param) => {
 
 	const TodoInput = document.createElement('input');
 
-	TodoInput.value = param;
+	if (param == '') {
+		TodoInput.value = 'Brak notatki';
+	} else {
+		TodoInput.value = param;
+	}
 
 	TodoInput.setAttribute('readonly', 'readonly');
 
@@ -61,6 +65,11 @@ const createTask = (param) => {
 	confirmButton.addEventListener('click', () => {
 		TodoInput.removeAttribute('readonly', 'readonly');
 		TodoInput.focus();
+		if (TodoInput.focus) {
+			confirmButton.addEventListener('click', () => {
+				TodoInput.toggleAttribute('readonly');
+			});
+		}
 	});
 };
 button.addEventListener('click', (e) => {
