@@ -67,6 +67,7 @@ button.addEventListener('click', (e) => {
 	e.preventDefault();
 	let value = input.value;
 	createTask(value);
+	input.value = '';
 });
 function GetFromLocalStorage() {
 	const element = JSON.parse(localStorage.getItem('myelement'));
