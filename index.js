@@ -62,11 +62,19 @@ const createTask = (param) => {
 		localStorage.setItem('myelement', JSON.stringify(tabTasks));
 		task.remove();
 	});
-	confirmButton.addEventListener('click', () => {
+
+	confirmButton.addEventListener('click', (e) => {
+		const prevValue = e.target.parentNode.parentNode.firstChild.value;
 		TodoInput.removeAttribute('readonly', 'readonly');
 		TodoInput.focus();
 		if (TodoInput.focus) {
-			confirmButton.addEventListener('click', () => {
+			confirmButton.addEventListener('click', (e) => {
+				const NewValue = e.target.parentNode.parentNode.firstChild.value;
+
+				const valueToChange = tabTasks.findIndex((value) => value == prevValue);
+
+				tabTasks.splice(valueToChange, 1, NewValue);
+				localStorage.setItem('myelement', JSON.stringify(tabTasks));
 				TodoInput.toggleAttribute('readonly');
 			});
 		}
